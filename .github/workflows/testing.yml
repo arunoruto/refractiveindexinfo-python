@@ -47,7 +47,7 @@ jobs:
       # install your root project, if required
       #----------------------------------------------
       - name: Install project
-        run: poetry install --no-interaction --with tests
+        run: poetry install --no-interaction
       #----------------------------------------------
       #              run test suite
       #----------------------------------------------
