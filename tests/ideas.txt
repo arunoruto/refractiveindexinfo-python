@@ -1,0 +1,2 @@
+The formula has a table in it too, which can be tested against it:
+https://refractiveindex.info/database/data-nk/glass/schott/N-BK7.yml

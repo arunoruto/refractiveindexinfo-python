@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "refidxpy"
+version = "0.0.1"
+description = "A Python interface to the popular https://refractiveindex.info/ database"
+authors = ["arunoruto <21687187+arunoruto@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.26.4"
+requests = "^2.31.0"
+pyyaml = "^6.0.1"
+pandas = "^2.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
