@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from refidxpy.refidx import RefIdx
+from refidxpy.formulas import formula_picker
 
 CSV_URL = "https://refractiveindex.info/data_csv.php?datafile=database/data-nk/{shelf}/{book}/{page}.yml"
 def _help_csv(url):
@@ -39,6 +40,9 @@ class TestRefIdxInit(unittest.TestCase):
 
         np.testing.assert_allclose(material.tabulated[['wavelength', 'n']].values, n_data.values, rtol=tol)
         np.testing.assert_allclose(material.tabulated[['wavelength', 'k']].values, k_data.values, rtol=tol)
+
+    def test_formula_wrong(self):
+        self.assertRaises(ValueError, formula_picker, 0)
 
     def test_formula_1(self):
         shelf = "main"
