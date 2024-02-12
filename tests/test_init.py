@@ -8,6 +8,8 @@ from refidxpy.refidx import RefIdx
 from refidxpy.formulas import formula_picker
 
 CSV_URL = "https://refractiveindex.info/data_csv.php?datafile=database/data-nk/{shelf}/{book}/{page}.yml"
+
+
 def _help_csv(url):
     resp = req.get(url)
     if resp.status_code != 200:
@@ -20,6 +22,7 @@ def _help_csv(url):
         return n_data, None
 
     return n_data, k_data
+
 
 class TestRefIdxInit(unittest.TestCase):
     # @classmethod
@@ -38,8 +41,12 @@ class TestRefIdxInit(unittest.TestCase):
 
         material = RefIdx(shelf=shelf, book=book, page=page)
 
-        np.testing.assert_allclose(material.tabulated[['wavelength', 'n']].values, n_data.values, rtol=tol)
-        np.testing.assert_allclose(material.tabulated[['wavelength', 'k']].values, k_data.values, rtol=tol)
+        np.testing.assert_allclose(
+            material.tabulated[["wavelength", "n"]].values, n_data.values, rtol=tol
+        )
+        np.testing.assert_allclose(
+            material.tabulated[["wavelength", "k"]].values, k_data.values, rtol=tol
+        )
 
     def test_formula_wrong(self):
         self.assertRaises(ValueError, formula_picker, 0)
@@ -53,9 +60,9 @@ class TestRefIdxInit(unittest.TestCase):
         n_data, _ = _help_csv(url)
 
         material = RefIdx(shelf=shelf, book=book, page=page)
-        n_formula = material.formula[0]['function'](n_data['wl'].to_numpy())
+        n_formula = material.formula[0]["function"](n_data["wl"].to_numpy())
 
-        np.testing.assert_allclose(n_formula, n_data['n'].to_numpy(), rtol=1e-3)
+        np.testing.assert_allclose(n_formula, n_data["n"].to_numpy(), rtol=1e-3)
 
     def test_formula_2(self):
         shelf = "glass"
@@ -66,8 +73,8 @@ class TestRefIdxInit(unittest.TestCase):
         n_data, k_data = _help_csv(url)
 
         material = RefIdx(shelf=shelf, book=book, page=page)
-        k_table = material.tabulated['k'].to_numpy()
-        n_formula = material.formula[0]['function'](n_data['wl'].to_numpy())
+        k_table = material.tabulated["k"].to_numpy()
+        n_formula = material.formula[0]["function"](n_data["wl"].to_numpy())
 
-        np.testing.assert_allclose(k_table,   k_data['k'].to_numpy(), rtol=1e-3)
-        np.testing.assert_allclose(n_formula, n_data['n'].to_numpy(), rtol=1e-3)
+        np.testing.assert_allclose(k_table, k_data["k"].to_numpy(), rtol=1e-3)
+        np.testing.assert_allclose(n_formula, n_data["n"].to_numpy(), rtol=1e-3)

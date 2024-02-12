@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 def formula_picker(num):
     """
     Choose the right formula based on the number
@@ -14,13 +15,16 @@ def formula_picker(num):
         case _:
             raise ValueError("Invalid formula number")
 
+
 def sellmeier2(coefficients, wavelength, min_wl=-np.inf, max_wl=np.inf):
     """
     Sellmeier formula for the refractive index
     """
     mask = (wavelength < min_wl) & (max_wl < wavelength)
-    n =  np.array(np.sqrt(
-            1 + coefficients[0]
+    n = np.array(
+        np.sqrt(
+            1
+            + coefficients[0]
             + np.sum(
                 [
                     coefficients[i]
@@ -30,13 +34,17 @@ def sellmeier2(coefficients, wavelength, min_wl=-np.inf, max_wl=np.inf):
                 ],
                 axis=0,
             )
-        ))
+        )
+    )
     n[mask] = np.nan
     return n
+
 
 def sellmeier(coefficients, wavelength, min_wl=-np.inf, max_wl=np.inf):
     """
     Sellmeier formula for the refractive index
     """
-    coefficients = [c**2 if (i > 0 and i % 2 == 0) else c for i, c in enumerate(coefficients)]
+    coefficients = [
+        c**2 if (i > 0 and i % 2 == 0) else c for i, c in enumerate(coefficients)
+    ]
     return sellmeier2(coefficients, wavelength, min_wl, max_wl)
