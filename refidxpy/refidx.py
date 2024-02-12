@@ -9,11 +9,12 @@ from io import StringIO
 
 from refidxpy.formulas import formula_picker
 
-class RefIdx():
+
+class RefIdx:
     def __init__(self, url=None, shelf=None, book=None, page=None):
         if (url is None) and ((shelf is None) or (book is None) or (page is None)):
             raise ValueError("Either url or shelf, book, and page must be provided")
-        
+
         if url is not None:
             self.url = url
             self.shelf = None
@@ -36,17 +37,15 @@ class RefIdx():
         formula_data = []
         ref_data = yaml.safe_load(resp.text)
 
-        for line in ref_data['DATA']:
+        for line in ref_data["DATA"]:
             df = None
             if "tabulated" in line["type"].lower():
                 header_yml = ["wavelength", "n", "k"]
                 if line["type"].lower()[-2:] == " k":
                     header_yml = ["wavelength", "k", "n"]
                 df = pd.read_csv(
-                    StringIO(line["data"]),
-                    sep="\s+",
-                    header=None,
-                    names=header_yml)
+                    StringIO(line["data"]), sep=r"\s+", header=None, names=header_yml
+                )
                 df = df.fillna(0)
                 if tabulated_data.empty:
                     tabulated_data = df
@@ -59,11 +58,15 @@ class RefIdx():
                 )
                 formula_number = int(line["type"].split()[-1])
                 formula = formula_picker(formula_number)
-                formula_data.append(dict(
-                    function = lambda x: formula(coefficients, x, wavelength_limits[0], wavelength_limits[1]),
-                    wavelength_limits = wavelength_limits,
-                    coefficients = coefficients
-                ))
+                formula_data.append(
+                    dict(
+                        function=lambda x: formula(
+                            coefficients, x, wavelength_limits[0], wavelength_limits[1]
+                        ),
+                        wavelength_limits=wavelength_limits,
+                        coefficients=coefficients,
+                    )
+                )
 
         self.tabulated = tabulated_data
         self.formula = formula_data
