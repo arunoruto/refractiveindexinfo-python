@@ -13,6 +13,12 @@ requests = "^2.31.0"
 pyyaml = "^6.0.1"
 pandas = "^2.2.0"
 
+[tool.poetry.group.tests]
+optional = true
+[tool.poetry.group.tests.dependencies]
+pytest = "^8.0.0"
+# pytest-cov = "^4.1.0"
+# coverage = "^7.4.1"
 
 [build-system]
 requires = ["poetry-core"]
