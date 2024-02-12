@@ -1,15 +1,15 @@
-# name: Python package
-# on:
-#   push:
-#     tags:
-#       - "v*.*.*"
-#   workflow_dispatch:
+name: Python package
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v4
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 #       - name: Build and publish to pypi
 #         uses: JRubics/poetry-publish@v1.17
 #         with:
